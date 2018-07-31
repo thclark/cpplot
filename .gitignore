@@ -1,32 +1,86 @@
-# Prerequisites
-*.d
+####################### Build directories
+build/
+lib/
+bin/
+cmake-build-debug
+cmake-build-release
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
 
-# Precompiled Headers
-*.gch
-*.pch
+####################### Jetbrains CLion IDE
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# User-specific stuff:
+.idea
 
-# Fortran module files
-*.mod
-*.smod
+## Plugin-specific files:
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# IntelliJ
+/out/
 
-# Executables
-*.exe
-*.out
-*.app
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+####################### Microsoft Visual Studio
+
+# User-specific stuff:
+.vs
+
+####################### ECLIPSE IDE
+
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Eclipse Core
+.project
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
