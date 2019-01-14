@@ -15,47 +15,52 @@
  *
  */
 
+
 #include "figures.h"
+
 
 namespace plotly {
 
-    std::string BarPlot::toJson() {
-        /* Turn plot type, data and layout into valid json strings. Produces figure JSON similar to:
-         *      fig = {"data": [{"x": ["giraffes", "orangutans", "monkeys"],
-         *             "y": [20, 14, 23],
-         *             "type": "bar"}
-         */
-
-        // Get the correct type representation from the enumeration
-        std::string type_string = "\"bar\"";
-        // Assemble into a json string representing the graph
-        // TODO serialise the data structure properly
-        return "{\"type\": " + type_string + ", \"data\": " + data.toJson() + layout + "}";
+    Figure::Figure() {
+        // Constructor
 
     }
 
-    std::string BarPlot::BarData::toJson() {
-        // TODO serialise the data structure properly
-        std::cout << "WARNING: hacking json contents in the toJson() method" << std::endl;
-        return "[{\"x\": [\"cppgiraffes\", \"orangutans\", \"monkeys\"], \"y\": [20, 14, 23]";
+    // TODO Represent Figure class in ostream
+    /*
+    ::std::ostream& operator<<(::std::ostream& os, const Figure& fig) {
+        // Represent in logs or ostream
+        return os << "debug statement for figure class";
+    }
+    */
+
+    void Figure::add(boost::any plot) {
+        // Add a plot to the list
+        data.push_back(plot.json());
     }
 
-    std::string ScatterPlot::toJson() {
-        /* Turn plot type, data and layout into valid json strings.
-         */
 
-        // TODO Get the correct type representation from a template enumeration
-        std::string type_string = "\"scatter\"";
+    void Figure::write(std::string filename) {
+        // Write the figure data to a file, which is automatically appended with '.json' if it isn't already.
 
-        // Assemble into a json string representing the graph
-        // TODO serialise the data structure properly
-        return "{\"type\": " + type_string + ", \"data\": " + data.toJson() + layout + "}";
+        // Convert the figure to JSON: copy each value into the JSON object
+        json j;
+        j["data"] = data;
+        j["layout"] = layout;
 
-    }
+        // Get the file name
+        if (!boost::algorithm::ends_with(filename, ".json")) {
+            filename.append(".json");
+        }
 
-    std::string ScatterPlot::ScatterData::toJson() {
-        // TODO serialise the data structure properly
-        return "data_scatter_json";
+        // Open the file and stream the string into it, overwriting any existing contents
+        std::ofstream file;
+        file.open(filename);
+        file << j;
+        file.close();
+
     }
 
 } // end namespace plotly
+
+#endif // CPPLOT_FIGURES_H

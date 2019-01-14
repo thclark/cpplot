@@ -72,7 +72,7 @@ set(SOURCE_FILES
         exceptions.h
         figures.h
         figures.cpp
-        main.cpp)
+        main.cpp plot_types/bar.h plot_types/scatter.h plot_types/scatter.cpp online.h)
 add_library(cpplot STATIC ${SOURCE_FILES})
 message("-- Source files for library cpplot: ${SOURCE_FILES}")
 

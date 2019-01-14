@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <Eigen/Dense>
 #include <boost/stacktrace.hpp>
+#include <boost/filesystem.hpp>
 #include "figures.h"
 #include "exceptions.h"
 #include "gtest/gtest.h"
@@ -37,23 +38,36 @@ using namespace google;
 using namespace plotly;
 
 
+// TODO inherit from a base test class
 class FigureTest : public ::testing::Test {
 
 protected:
 
-    /* Returns environment variable TEST_DATA_DIR, which contains the system-dependent path to the test data file,
-     * or defaults to the current directory. NB the variable must contain trailing '/'.
-     * TODO inherit from a base test class
+    /* Returns environment variable TEST_DATA_DIR, which contains a system-dependent path to a directory where test
+     * fixture data may be stored, and which may be used to write output test files. If no environment variable is set,
+     * defaults to the current working directory in which the test framework is being run.
+     * A trailing slash is always appended.
      */
-    std::string TestFixtureDir() {
-        // TODO use the boost library to make the variable independent of trailing '/'.
-        const char *test_data_dir = std::getenv("TEST_DATA_DIR");
-        return test_data_dir ? test_data_dir : "./";
+    std::string TestDataDir() {
+
+        const char *tmp = std::getenv("TEST_DATA_DIR");
+        std::string test_data_dir;
+        if (tmp) {
+            std::string s(tmp);
+            test_data_dir = s;
+        } else {
+            boost::filesystem::path cwd(boost::filesystem::current_path());
+            test_data_dir = cwd.string();
+        }
+        if (!boost::algorithm::ends_with(test_data_dir, "/")) {
+            test_data_dir.append("/");
+        }
+
+        return test_data_dir;
     }
 
     // Define the matrix output format for this set of tests
     IOFormat test_format;
-
 
     virtual void SetUp() {
         // Code here will be called immediately after the constructor (right before each test)
@@ -77,13 +91,12 @@ TEST_F(FigureTest, test_bar_chart) {
     BarPlot p = BarPlot();
     std::cout << p.toJson() << std::endl;
 
-    // Send to plotly for rendering
+    // Write it to disk
     Figure<BarPlot> fig = Figure<BarPlot>(p);
-    fig.plot();
-
-    std::cout << "Figure plotlyUrl(): " << fig.plotlyUrl() <<  std::endl;
+    fig.write(TestDataDir().append("test_bar_chart.json"));
 
 }
+
 
 //// Test the osstream operator works. Bloody thing.
 //TEST_F(FigureTest, test_figure_ostream) {
