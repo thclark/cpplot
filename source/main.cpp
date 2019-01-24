@@ -1,17 +1,9 @@
 /*
  * main.cpp - An example program to create and save various types of figures as Plotly-compliant .json files.
  *
- * References:
- *
- *   [1]
- *
- * Future Improvements:
- *
- *   [1]
- *
  * Author:              Tom Clark  (thclark@github)
  *
- * Copyright (c) 2017-8 T Clark. All Rights Reserved.
+ * Copyright (c) 2017-9 T Clark. All Rights Reserved.
  *
  */
 #include <stdlib.h>
