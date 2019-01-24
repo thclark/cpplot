@@ -33,8 +33,9 @@
 #include <cpr/cpr.h>
 #include <json/single_include/nlohmann/json.hpp>
 #include "exceptions.h"
-
-using nlohmann::json;
+#include "eigen.h"
+#include "plot_types/scatter.h"
+#include "plot_types/bar.h"
 
 
 namespace plotly {
@@ -45,33 +46,88 @@ namespace plotly {
     // Base class for managing the figure creation process
     class Figure {
 
-    private:
-
-        json data = json::array();
-
     protected:
+
+        nlohmann::json data;
+        nlohmann::json layout;
+        nlohmann::json meta;
 
     public:
 
-        Figure();
+        Figure(){
+            data = nlohmann::json::array();
+            layout = nlohmann::json::object();
+            meta = nlohmann::json::object();
+        }
 
-        // TODO layout class
-        json layout = json::object();
+        /// Optional metadata - Figure ID
+        std::string id = "";
 
-//        // Figure name used in report tagging
-//        std::string name = "";
-//
-//        // Short_caption used in report contents tables
-//        std::string short_caption = "";
-//
-//        // Long caption used in report
-//        std::string caption = "";
+        /// Optional metadata - Figure name used for display (e.g. in cpplot-viewer)
+        std::string name = "";
 
-        // Add plot data to the figure
-        void add(boost::any plot);
+        /// Optional metadata - Short_caption used in report contents tables
+        std::string short_caption = "";
 
-        // Write the figure to a file
-        void write(std::string filename);
+        /// Optional metadata - Long caption used beside the figure (e.g. in a report)
+        std::string caption = "";
+
+        /** @brief Add plot data to the figure
+         *
+         * @tparam T type of the plot data to add
+         * @param plot
+         */
+        template <class T>
+        void add(T &plot) {
+            // Data is a json array of plot data
+            data.push_back(plot);
+//            std::cout << "current data:" << std::endl << data << std::endl;
+        }
+
+        /** @brief Write the figure to a file
+         *
+         * **CAUTION:** Overwrites any existing file contents.
+         *
+         * @param file_name The file name to write to, including any absolute or relative path
+         * @param append_extension If true, a .json extension will be appended to file_name (if not already present)
+         */
+        void write(std::string file_name, bool append_extension = true){
+
+            // Compile metadata into a json object. NB any other fields already added to meta will be kept, allowing addition of arbitrary metadata to figures.
+            meta["id"] = id;
+            meta["name"] = name;
+            meta["caption"] = caption;
+            meta["short_caption"] = short_caption;
+
+            // Convert the figure to JSON: copy each value into the JSON object
+            nlohmann::json j;
+            j["data"] = data;
+            j["layout"] = layout;
+            j["meta"] = meta;
+
+            // Get the file name
+            if (!boost::algorithm::ends_with(file_name, ".json") && append_extension) {
+                file_name.append(".json");
+            }
+
+            // Open the file and stream the string into it, overwriting any existing contents
+            std::ofstream file;
+            file.open(file_name);
+            file << j;
+            file.close();
+
+            // Also write to stdout
+            // TODO REMOVE BEFORE THIS GETS USED IN ANGER, YOU'LL KILL YOUR TERMINAL!
+            std::cout << "WROTE FIGURE:" << std::endl << j << std::endl;
+
+        }
+        // TODO Represent Figure class in ostream
+        /*
+        ::std::ostream& operator<<(::std::ostream& os, const Figure& fig) {
+            // Represent in logs or ostream
+            return os << "debug statement for figure class";
+        }
+        */
 
     };
 
@@ -83,11 +139,6 @@ namespace plotly {
     }
     */
 
-//    Figure::Figure();
-//
-//    void Figure::add(boost::any plot);
-//
-//    void Figure::write(std::string filename);
 
 } // end namespace plotly
 

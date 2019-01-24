@@ -15,12 +15,12 @@
  *
  */
 
-#include <json/single_include/nlohmann/json.hpp>
-#include "bar.h"
-#include "figures.h"
-
-
-using nlohmann::json;
+//#include <json/single_include/nlohmann/json.hpp>
+//#include "bar.h"
+//#include "figures.h"
+//
+//
+//using nlohmann::json;
 
 
 namespace plotly {

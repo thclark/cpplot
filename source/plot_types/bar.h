@@ -24,10 +24,6 @@
 #include <stdio.h>
 #include <vector>
 #include <string.h>
-//#include <time.h>
-//#include <iostream>
-//#include <fstream>
-//#include <bitset>
 #include <Eigen/Dense>
 #include <boost/any.hpp>
 #include <json/single_include/nlohmann/json.hpp>
@@ -41,36 +37,37 @@ namespace plotly {
 
 class BarPlot {
 public:
-    // TODO remove defaults
-    std::vector<std::string> x = {"cppgiraffes", "orangutans", "monkeys"};
 
-    // TODO remove eigen dependency and use std::vector<boost::any>
-    Eigen::VectorXd y = Eigen::VectorXd::LinSpaced(3, 1.0, 3.0);
+    std::vector<std::string> x;
+    Eigen::VectorXd y;
+    std::string type = "bar";
 
-    BarPlot() {}
-
-    BarPlot(const std::vector<boost::any> &x, const std::vector<boost::any> &y);
-
-    std::string string() {
-        json j(this);
-        std::string tmp;
-        return j.dump(4);
+    /** @brief Construct with default basic data (for test plots)
+     */
+    BarPlot() {
+        x = {"cppgiraffes", "orangutans", "monkeys"};
+        y = Eigen::VectorXd::LinSpaced(3, 2.0, 3.0);
     }
+
 };
 
 
-BarPlot::BarPlot(const std::vector<boost::any> &x, const std::vector<boost::any> &y) {
-    // TODO Check they're iterable and if not put the single items in an iterable container
+/** @brief Serialise bar plot data into a valid json string.
+ *
+ * Produces figure data JSON similar to:
+ *      {"x": ["giraffes", "orangutans", "monkeys"],
+ *       "y": [20.1, 14.4, 23.3],
+ *       "type": "bar"}
+ */
+void to_json(nlohmann::json& j, const BarPlot& p) {
 
-}
-
-void to_json(json &j, const BarPlot &p) {
-    /* Turn plot type and data into a valid json string. Produces figure data JSON similar to:
-     *      {"x": ["giraffes", "orangutans", "monkeys"],
-     *       "y": [20, 14, 23],
-     *       "type": "bar"}
-     */
-    j = json{{"x", p.x}, {"y", p.y}, {"type", "bar"}};
+//    nlohmann::json x;
+    nlohmann::json y;
+//    to_json(x, p.x);
+    to_json(y, p.y);
+    j["x"] = p.x;
+    j["y"] = y;
+    j["type"] = p.type;
 }
 
 
