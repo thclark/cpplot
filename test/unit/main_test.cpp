@@ -21,20 +21,14 @@
 #include <math.h>
 #include <vector>
 #include <iostream>
-#include <limits>
-#include <exception>
-#include <stdlib.h>
 #include <Eigen/Dense>
 #include <boost/stacktrace.hpp>
-#include "figures.h"
-#include "exceptions.h"
 #include "gtest/gtest.h"
 #include "glog/logging.h"
 
 
 using namespace Eigen;
 using namespace google;
-using namespace plotly;
 
 
 class TestCasePrinter : public ::testing::EmptyTestEventListener {
@@ -64,7 +58,7 @@ class TestCasePrinter : public ::testing::EmptyTestEventListener {
 
     virtual void OnTestEnd(const ::testing::TestInfo& test_info) {
         printf("Torn down test %s.%s\n", test_info.test_case_name(), test_info.name());
-        printf("____________________________________________________________________________________\n\n\n");
+        printf("_____________________________________________________________________________________\n\n\n");
     }
 
 };
