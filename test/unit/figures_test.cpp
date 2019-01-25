@@ -116,6 +116,7 @@ TEST_F(FigureTest, test_bar_and_scatter_plot) {
 
 }
 
+
 TEST_F(FigureTest, test_surface_plot) {
 
     Figure fig = Figure();
