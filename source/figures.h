@@ -34,8 +34,9 @@
 #include <json/single_include/nlohmann/json.hpp>
 #include "exceptions.h"
 #include "eigen.h"
-#include "plot_types/scatter.h"
 #include "plot_types/bar.h"
+#include "plot_types/scatter.h"
+#include "plot_types/surface.h"
 
 
 namespace plotly {

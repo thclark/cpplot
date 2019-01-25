@@ -72,6 +72,7 @@ protected:
 
         IOFormat debug_format(FullPrecision, 0, ", ", ";\n", "", "", "[", "]");
         test_format = debug_format;
+        std::cout << "Test Data Output Dir is: " << TestDataDir() << std::endl;
 
     }
 
@@ -112,6 +113,15 @@ TEST_F(FigureTest, test_bar_and_scatter_plot) {
     fig.add(p2);
     std::cout << "Writing to TestDataDir(): " << TestDataDir() << std::endl;
     fig.write(TestDataDir().append("test_bar_and_scatter_plot.json"));
+
+}
+
+TEST_F(FigureTest, test_surface_plot) {
+
+    Figure fig = Figure();
+    SurfacePlot p = SurfacePlot();
+    fig.add(p);
+    fig.write(TestDataDir().append("test_surface_plot.json"));
 
 }
 

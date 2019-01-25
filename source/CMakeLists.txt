@@ -52,7 +52,7 @@ set(SOURCE_FILES
         main.cpp
         plot_types/bar.h
         plot_types/scatter.h
-        plot_types/scatter.cpp
+        plot_types/surface.h
         online.h
         eigen.h)
 add_library(cpplot STATIC ${SOURCE_FILES})
