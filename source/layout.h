@@ -136,7 +136,6 @@ void to_json(nlohmann::json& j, const Layout& p) {
     for (auto it = 0; it < p.axes.size(); it++) {
         nlohmann::json ax;
         to_json(ax, p.axes[it]);
-        std::cout << "AXIS: " << ax << std::endl;
         j.update(ax);
     };
 }
