@@ -28,6 +28,7 @@ public:
     Eigen::VectorXd x;
     Eigen::VectorXd y;
     std::string type = "scatter";
+    std::string name = "";
 
     /** @brief Construct with default basic data (for test plots)
      */
@@ -55,6 +56,9 @@ void to_json(nlohmann::json& j, const ScatterPlot& p) {
     j["x"] = x;
     j["y"] = y;
     j["type"] = p.type;
+    if (!p.name.empty()) {
+        j["name"] = p.name;
+    }
 }
 
 

@@ -40,6 +40,7 @@ public:
     std::vector<std::string> x;
     Eigen::VectorXd y;
     std::string type = "bar";
+    std::string name = "";
 
     /** @brief Construct with default basic data (for test plots)
      */
@@ -60,13 +61,15 @@ public:
  */
 void to_json(nlohmann::json& j, const BarPlot& p) {
 
-//    nlohmann::json x;
     nlohmann::json y;
-//    to_json(x, p.x);
     to_json(y, p.y);
     j["x"] = p.x;
     j["y"] = y;
     j["type"] = p.type;
+    if (!p.name.empty()) {
+        j["name"] = p.name;
+    }
+
 }
 
 

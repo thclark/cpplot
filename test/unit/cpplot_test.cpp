@@ -99,7 +99,7 @@ TEST_F(FigureTest, test_scatter_plot) {
     ScatterPlot p = ScatterPlot();
     Figure fig = Figure();
     fig.add(p);
-    fig.write(TestDataDir().append("test_scatter_plot.json"));
+    fig.write(TestDataDir().append("test_scatter_plot.json")), true, true;
 
 }
 
@@ -112,7 +112,21 @@ TEST_F(FigureTest, test_bar_and_scatter_plot) {
     ScatterPlot p2 = ScatterPlot();
     fig.add(p2);
     std::cout << "Writing to TestDataDir(): " << TestDataDir() << std::endl;
-    fig.write(TestDataDir().append("test_bar_and_scatter_plot.json"));
+    fig.write(TestDataDir().append("test_bar_and_scatter_plot.json"), true, true);
+
+}
+
+TEST_F(FigureTest, test_scatter_with_legend_plot) {
+
+    Figure fig = Figure();
+    ScatterPlot p1 = ScatterPlot();
+    p1.name = "my first trace";
+    fig.add(p1);
+    ScatterPlot p2 = ScatterPlot();
+    p2.name = "my second trace";
+    fig.add(p2);
+    std::cout << "Writing to TestDataDir(): " << TestDataDir() << std::endl;
+    fig.write(TestDataDir().append("test_scatter_with_legend_plot.json"), true, true);
 
 }
 
@@ -122,7 +136,7 @@ TEST_F(FigureTest, test_surface_plot) {
     Figure fig = Figure();
     SurfacePlot p = SurfacePlot();
     fig.add(p);
-    fig.write(TestDataDir().append("test_surface_plot.json"));
+    fig.write(TestDataDir().append("test_surface_plot.json"), true, true);
 
 }
 

@@ -82,6 +82,7 @@ public:
     Eigen::ArrayXXd y;
     Eigen::ArrayXXd z;
     std::string type = "surface";
+    std::string name = "";
 
     /** @brief Construct with default basic data (for test plots)
      */
@@ -112,6 +113,9 @@ void to_json(nlohmann::json& j, const SurfacePlot& p) {
     j["z"] = z;
     to_json(j, p.colorscale);
     j["type"] = p.type;
+    if (!p.name.empty()) {
+        j["name"] = p.name;
+    }
 }
 
 
