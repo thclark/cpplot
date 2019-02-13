@@ -30,16 +30,17 @@
 #include <Eigen/Dense>
 #include <boost/algorithm/string.hpp>
 #include <boost/any.hpp>
-#include <cpr/cpr.h>
-#include <json/single_include/nlohmann/json.hpp>
+// Moved file from #include <json/single_include/nlohmann/json.hpp> to avoid having to install json as a dependency whenever we install or use cpplot
+#include <json.hpp>
 #include "exceptions.h"
 #include "eigen.h"
+#include "layout.h"
 #include "plot_types/bar.h"
 #include "plot_types/scatter.h"
 #include "plot_types/surface.h"
 
 
-namespace plotly {
+namespace cpplot {
 
     // Enumerate the different plot types that are possible with plotly
     enum PlotType { bar, scatter };
@@ -82,17 +83,25 @@ namespace plotly {
         void add(T &plot) {
             // Data is a json array of plot data
             data.push_back(plot);
-//            std::cout << "current data:" << std::endl << data << std::endl;
+        }
+
+        /** @brief Add layout data to the figure
+         *
+         *
+         */
+        void setLayout(Layout &lay) {
+            layout.update(lay);
         }
 
         /** @brief Write the figure to a file
          *
          * **CAUTION:** Overwrites any existing file contents.
          *
-         * @param file_name The file name to write to, including any absolute or relative path
-         * @param append_extension If true, a .json extension will be appended to file_name (if not already present)
+         * @param[in] file_name The file name to write to, including any absolute or relative path
+         * @param[in] append_extension If true, a .json extension will be appended to file_name (if not already present)
+         * @param[in] print_to_stdout Default false. If true, the json will also be printed to std::cout (useful for debugging)
          */
-        void write(std::string file_name, bool append_extension = true){
+        void write(std::string file_name, bool append_extension = true, bool print_to_stdout = false){
 
             // Compile metadata into a json object. NB any other fields already added to meta will be kept, allowing addition of arbitrary metadata to figures.
             meta["id"] = id;
@@ -118,8 +127,9 @@ namespace plotly {
             file.close();
 
             // Also write to stdout
-            // TODO REMOVE BEFORE THIS GETS USED IN ANGER, YOU'LL KILL YOUR TERMINAL!
-            std::cout << "WROTE FIGURE:" << std::endl << j << std::endl;
+            if (print_to_stdout) {
+                std::cout << "Figure json:" << std::endl << j << std::endl;
+            }
 
         }
         // TODO Represent Figure class in ostream
@@ -141,6 +151,6 @@ namespace plotly {
     */
 
 
-} // end namespace plotly
+} // end namespace
 
 #endif // CPPLOT_FIGURES_H

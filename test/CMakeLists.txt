@@ -5,7 +5,7 @@ include_directories(${Boost_INCLUDE_DIR})
 
 # List the unit test files
 set(UNIT_TEST_SOURCE_FILES
-        unit/figures_test.cpp
+        unit/cpplot_test.cpp
         unit/main_test.cpp
         )
 

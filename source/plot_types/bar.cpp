@@ -23,7 +23,7 @@
 //using nlohmann::json;
 
 
-namespace plotly {
+namespace cpplot {
 
 
-} // end namespace plotly
+} // end namespace

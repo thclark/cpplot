@@ -19,7 +19,7 @@
 #include "exceptions.h"
 
 
-namespace plotly {
+namespace cpplot {
 
 
 class ScatterPlot {
@@ -58,6 +58,6 @@ void to_json(nlohmann::json& j, const ScatterPlot& p) {
 }
 
 
-} // end namespace plotly
+} // end namespace
 
 #endif //CPPLOT_SCATTER_H

@@ -19,7 +19,7 @@
 #include "exceptions.h"
 
 
-namespace plotly {
+namespace cpplot {
 
 /** @brief Default color scales available in plotly
  * TODO refactor these to separate file and allow fo custom colourmaps
@@ -115,6 +115,6 @@ void to_json(nlohmann::json& j, const SurfacePlot& p) {
 }
 
 
-} // end namespace plotly
+} // end namespace
 
 #endif //CPPLOT_SURFACE_H

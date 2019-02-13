@@ -25,14 +25,13 @@
 #include <vector>
 #include <string.h>
 #include <Eigen/Dense>
-#include <boost/any.hpp>
 #include <json/single_include/nlohmann/json.hpp>
 
 
 using nlohmann::json;
 
 
-namespace plotly {
+namespace cpplot {
 
 
 class BarPlot {

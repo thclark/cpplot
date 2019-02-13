@@ -22,7 +22,7 @@
 #include <Eigen/Dense>
 
 
-namespace plotly {
+namespace cpplot {
 
 
 /** @brief A serialiser to convert dense eigen arrays to json objects using nlohmann::json
@@ -84,6 +84,6 @@ void to_json(nlohmann::json& j, const Eigen::DenseBase<Derived>& in) {
 }
 
 
-} // end namespace plotly
+} // end namespace
 
 #endif //CPPLOT_EIGEN_H

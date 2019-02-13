@@ -24,7 +24,7 @@
 #include <Eigen/Dense>
 #include <boost/stacktrace.hpp>
 #include <boost/filesystem.hpp>
-#include "figures.h"
+#include "cpplot.h"
 #include "eigen.h"
 #include "exceptions.h"
 #include "gtest/gtest.h"
@@ -33,7 +33,7 @@
 
 using namespace Eigen;
 using namespace google;
-using namespace plotly;
+using namespace cpplot;
 
 
 // TODO inherit from a base test class
@@ -152,6 +152,33 @@ TEST_F(FigureTest, test_eigen_serialiser) {
 
     std::cout << j.dump() << std::endl;
     EXPECT_EQ(j.dump(), "{\"array1\":[0.001,0.1,0.3,0.6,1],\"array2\":[[0,0.1],[1,1.1],[2,2.1],[3,3.1],[4,4.1]]}");
+
+}
+
+
+TEST_F(FigureTest, test_layout) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    fig.add(p);
+    Layout lay = Layout("Graph Title");
+    lay.xLabel("ecks");
+    lay.yLabel("why");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_layout_plot.json"), true, true);
+
+}
+
+TEST_F(FigureTest, test_layout_no_title) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    fig.add(p);
+    Layout lay = Layout();
+    lay.xLabel("ecks");
+    lay.yLabel("why");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_layout_no_title_plot.json"), true, true);
 
 }
 

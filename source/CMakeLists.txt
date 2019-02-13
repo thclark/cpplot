@@ -47,14 +47,14 @@ endif ()
 # Add the library
 set(SOURCE_FILES
         exceptions.h
-        figures.h
-        figures.cpp
+        cpplot.h
+        cpplot.cpp
         main.cpp
         plot_types/bar.h
         plot_types/scatter.h
         plot_types/surface.h
         online.h
-        eigen.h)
+        eigen.h layout.h)
 add_library(cpplot STATIC ${SOURCE_FILES})
 message("-- Source files for library cpplot: ${SOURCE_FILES}")
 
@@ -74,3 +74,7 @@ else ()
     target_link_libraries(cpplot ${EIGEN_LIBRARIES} ${GLOG_LIBRARIES} ${Boost_LIBRARIES} ${CPR_LIBRARIES})
     target_link_libraries(cpplot-examples cpplot ${EIGEN_LIBRARIES} ${GLOG_LIBRARIES} ${Boost_LIBRARIES} ${CPR_LIBRARIES})
 endif ()
+
+message("-- Install directory is "${CMAKE_INSTALL_PREFIX})
+install (TARGETS cpplot DESTINATION lib)
+install (FILES cpplot.h json/single_include/nlohmann/json.hpp DESTINATION include)
