@@ -183,6 +183,7 @@ TEST_F(FigureTest, test_layout) {
 
 }
 
+
 TEST_F(FigureTest, test_layout_no_title) {
 
     Figure fig = Figure();
