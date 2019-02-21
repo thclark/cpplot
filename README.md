@@ -41,6 +41,7 @@ The browser viewer is built in React (using the excellent `react-plotly.js`), is
 always keeps your data local (files are never uploaded to a server). Find the source
 at [https://github.com/thclark/cpplot-viewer](https://github.com/thclark/cpplot-viewer).
 
+**Some example figures to try out with the viewer are included in `/examples`**.
 
 ## The Plotly Library
 
