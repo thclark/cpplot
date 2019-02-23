@@ -140,6 +140,43 @@ TEST_F(FigureTest, test_surface_plot) {
 
 }
 
+TEST_F(FigureTest, test_mandelbrot_plot) {
+
+    Figure fig = Figure();
+    SurfacePlot p = SurfacePlot();
+
+    int height = 600;
+    int width = 600;
+    int max_iterations = 16;
+
+    p.x = Eigen::RowVectorXd::LinSpaced(width, -1.5, 0.6).replicate(height, 1).array();
+    p.y = Eigen::VectorXd::LinSpaced(height, -1.26, 1.26).replicate(1, width).array();
+    p.z = Eigen::ArrayXXd(width, height);
+
+    // Loop to produce the fractal set
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            double a = p.x(i,j);
+            double b = p.y(i,j);
+            double xn = 0.0;
+            double yn = 0.0;
+            int k = 1;
+            while ((k <= max_iterations) && ((pow(xn, 2.0) - pow(yn, 2.0)) < 4.0)) {
+                double xnew = pow(xn, 2.0) - pow(yn, 2.0) + a;
+                double ynew = 2.0 * xn * yn + b;
+                xn = xnew;
+                yn = ynew;
+                k = k + 1;
+            };
+            p.z(i,j) = k;
+        };
+    };
+
+    fig.add(p);
+    fig.write(TestDataDir().append("test_mandelbrot_plot.json"), true, true);
+
+}
+
 
 TEST_F(FigureTest, test_eigen_serialiser) {
 
