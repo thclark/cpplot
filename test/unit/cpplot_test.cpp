@@ -140,6 +140,7 @@ TEST_F(FigureTest, test_surface_plot) {
 
 }
 
+
 TEST_F(FigureTest, test_mandelbrot_plot) {
 
     Figure fig = Figure();
