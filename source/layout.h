@@ -136,9 +136,9 @@ void to_json(nlohmann::json& j, const Layout& p) {
         j["title"] = p.title;
     };
     nlohmann::json axes;
-    for (auto it = 0; it < p.axes.size(); it++) {
+    for (auto &axis : p.axes) {
         nlohmann::json ax;
-        to_json(ax, p.axes[it]);
+        to_json(ax, axis);
         axes.update(ax);
     };
     if (p.is_scene) {
