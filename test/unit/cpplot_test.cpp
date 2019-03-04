@@ -222,6 +222,21 @@ TEST_F(FigureTest, test_layout) {
 }
 
 
+TEST_F(FigureTest, test_3d_axes_labels) {
+
+    Figure fig = Figure();
+    SurfacePlot p = SurfacePlot();
+    fig.add(p);
+    Layout lay = Layout("Graph Title");
+    lay.xLabel("ecks");
+    lay.yLabel("why");
+    lay.zLabel("zedd");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_3d_axes_labels.json"), true, true);
+
+}
+
+
 TEST_F(FigureTest, test_layout_no_title) {
 
     Figure fig = Figure();

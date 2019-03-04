@@ -91,9 +91,11 @@ public:
      * Layout my_layout = Layout("a graph title"); // Default constructor Layout() also works
      * my_layout.xLabel("ecks");
      * my_layout.yLabel("why";
+     * @endcode
+     *
      *
      */
-    Layout(const std::string title="") : title(title) {};
+    Layout(const std::string title="", const bool is_scene=false) : title(title), is_scene(is_scene) {};
 
     void xLabel(const std::string label) {
         AxisDirection dir = X;
@@ -111,34 +113,47 @@ public:
         AxisDirection dir = Z;
         Axis ax(dir, label);
         axes.push_back(ax);
+        // Detect whether a scene or not based on whether a z axis label is set
+        // TODO Improve the deduction of whether a scene or not
+        is_scene = true;
     }
 
 protected:
 
     std::vector<Axis> axes;
     std::string title;
+    bool is_scene;
+
 };
 
 
 /** @brief Serialise layout into a valid json string.
  *
- * Produces figure data JSON similar to:
- *      {"x": ["giraffes", "orangutans", "monkeys"],
- *       "y": [20.1, 14.4, 23.3],
- *       "type": "bar"}
  */
 void to_json(nlohmann::json& j, const Layout& p) {
 
     if (!p.title.empty()) {
         j["title"] = p.title;
     };
-
+    nlohmann::json axes;
     for (auto it = 0; it < p.axes.size(); it++) {
         nlohmann::json ax;
         to_json(ax, p.axes[it]);
-        j.update(ax);
+        axes.update(ax);
     };
-}
+    std::cout << "here" << std::endl;
+    std::cout << axes << std::endl;
+
+    if (p.is_scene) {
+        j["scene"] = axes;
+        std::cout << "here1" << std::endl;
+        std::cout << j << std::endl;
+    } else {
+        j.update(axes);
+        std::cout << "here2" << std::endl;
+        std::cout << j << std::endl;
+    };
+};
 
 
 }; // end namespace cpplot
