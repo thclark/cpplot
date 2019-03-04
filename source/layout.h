@@ -141,17 +141,10 @@ void to_json(nlohmann::json& j, const Layout& p) {
         to_json(ax, p.axes[it]);
         axes.update(ax);
     };
-    std::cout << "here" << std::endl;
-    std::cout << axes << std::endl;
-
     if (p.is_scene) {
         j["scene"] = axes;
-        std::cout << "here1" << std::endl;
-        std::cout << j << std::endl;
     } else {
         j.update(axes);
-        std::cout << "here2" << std::endl;
-        std::cout << j << std::endl;
     };
 };
 
