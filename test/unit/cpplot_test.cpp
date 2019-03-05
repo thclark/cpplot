@@ -214,8 +214,8 @@ TEST_F(FigureTest, test_layout) {
     ScatterPlot p = ScatterPlot();
     fig.add(p);
     Layout lay = Layout("Graph Title");
-    lay.xLabel("ecks");
-    lay.yLabel("why");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
     fig.setLayout(lay);
     fig.write(TestDataDir().append("test_layout_plot.json"), true, true);
 
@@ -228,9 +228,9 @@ TEST_F(FigureTest, test_3d_axes_labels) {
     SurfacePlot p = SurfacePlot();
     fig.add(p);
     Layout lay = Layout("Graph Title");
-    lay.xLabel("ecks");
-    lay.yLabel("why");
-    lay.zLabel("zedd");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
+    lay.zTitle("zedd");
     fig.setLayout(lay);
     fig.write(TestDataDir().append("test_3d_axes_labels.json"), true, true);
 
@@ -243,23 +243,43 @@ TEST_F(FigureTest, test_layout_no_title) {
     ScatterPlot p = ScatterPlot();
     fig.add(p);
     Layout lay = Layout();
-    lay.xLabel("ecks");
-    lay.yLabel("why");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
     fig.setLayout(lay);
     fig.write(TestDataDir().append("test_layout_no_title_plot.json"), true, true);
 
 }
 
-//// Test the osstream operator works. Bloody thing.
-//TEST_F(FigureTest, test_figure_ostream) {
-//
-//    // Example bar chart
-//    BarPlot p = BarPlot();
-//    std::cout << p.toJson() << std::endl;
-//
-//    // Send to plotly for rendering
-//    Figure<BarPlot> fig = Figure<BarPlot>(p);
-//
-//    std::cout << fig << std::endl;
-//
-//}
+
+TEST_F(FigureTest, test_latex_labels) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    p.name = "$\\eta_{12}$";
+    fig.add(p);
+    Layout lay = Layout();
+    lay.xTitle("$x + y$");
+    lay.yTitle("$d, r \\\\text{(solar radius)}$");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_latex_labels.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_log_axes) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    p.x = Eigen::RowVectorXd::LinSpaced(100, 1, 100000);
+    p.y = 2.0 * p.x;
+    p.name = "relationship";
+    fig.add(p);
+    Layout lay = Layout();
+    lay.xTitle("x");
+    lay.yTitle("y");
+    lay.xLog();
+    lay.yLog();
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_log_axes.json"), true, true);
+
+}

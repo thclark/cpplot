@@ -1,5 +1,5 @@
 /*
- * layout.h Brief overview sentence
+ * layout.h
  * 
  * Author:              Tom Clark  (thclark @ github)
  *
@@ -41,7 +41,7 @@ public:
     // Allow the serialiser function to access protected members
     friend void to_json(nlohmann::json& j, const Axis& p);
 
-    Axis(const AxisDirection dir, const std::string title="") : title(title) {
+    explicit Axis(const AxisDirection dir) : direction(dir){
         switch(dir){
             case X:
                 key = "xaxis";
@@ -55,9 +55,40 @@ public:
         }
     };
 
+    /** @brief Sets the direction of the axis, as X, Y, or Z
+     *
+     * @param dir Axis direction (an enum X, Y or Z)
+     */
+    void setDirection(AxisDirection dir) {
+        direction = dir;
+    };
+
+    void setTitle(std::string label) {
+        std::cout << "setting title " << label << std::endl;
+        title = label;
+    };
+
+    void setLog() {
+        is_log = true;
+    };
+
+    AxisDirection getDirection() {
+        return direction;
+    };
+
+    std::string getTitle() {
+        return title;
+    };
+
+    bool isLog() {
+        return is_log;
+    };
+
 protected:
+    AxisDirection direction;
     std::string title;
     std::string key;
+    bool is_log = false;
 };
 
 
@@ -69,11 +100,11 @@ protected:
  * @endcode
  */
 void to_json(nlohmann::json& j, const Axis& p) {
-
-//    nlohmann::json axis_title;
-//    axis_title["text"] = p.title;
     nlohmann::json axis;
     axis["title"] = p.title;
+    if (p.is_log) {
+        axis["type"] = "log";
+    };
     j[p.key] = axis;
 }
 
@@ -95,27 +126,86 @@ public:
      *
      *
      */
-    Layout(const std::string title="", const bool is_scene=false) : title(title), is_scene(is_scene) {};
+    explicit Layout(const std::string title="", const bool is_scene=false) : title(title), is_scene(is_scene) {};
 
-    void xLabel(const std::string label) {
+    /** @brief get an axis in the layout by its direction. Optionally, create if not found.
+     *
+     * Example use:
+     * @code
+     * Layout my_layout = Layout("a graph title"); // Default constructor Layout() also works
+     * axis = my_layout.getAxis(X); // raises error
+     * axis = my_layout.getAxis(X, true); // creates the axis and adds it to the layout
+     * @endcode
+     *
+     * @param dir
+     * @return
+     */
+    Axis* getAxis(const AxisDirection &dir, bool create=false) {
+        for (auto &axis: axes) {
+            if (axis.getDirection() == dir) {
+                return &axis;
+            };
+        };
+        if (create) {
+            Axis ax(dir);
+            axes.push_back(ax);
+            // If a Z axis is created, turn the plot into a 3D scene
+            if (dir == Z) {
+                is_scene = true;
+            }
+            return &axes.back();
+        } else {
+            InvalidAxisException e;
+            throw (e);
+        };
+    }
+
+    /** @brief set the title of the x axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void xTitle(const std::string label) {
         AxisDirection dir = X;
-        Axis ax(dir, label);
-        axes.push_back(ax);
+        getAxis(dir, true)->setTitle(label);
     }
 
-    void yLabel(const std::string label) {
+    /** @brief set the title of the y axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void yTitle(const std::string label) {
         AxisDirection dir = Y;
-        Axis ax(dir, label);
-        axes.push_back(ax);
+        getAxis(dir, true)->setTitle(label);
     }
 
-    void zLabel(const std::string label) {
+    /** @brief set the title of the z axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void zTitle(const std::string label) {
         AxisDirection dir = Z;
-        Axis ax(dir, label);
-        axes.push_back(ax);
-        // Detect whether a scene or not based on whether a z axis label is set
-        // TODO Improve the deduction of whether a scene or not
-        is_scene = true;
+        getAxis(dir, true)->setTitle(label);
+    }
+
+    /** @brief change the type of the x axis from its default, 'linear', to 'log'
+     */
+    void xLog() {
+        AxisDirection dir = X;
+        getAxis(dir, true)->setLog();
+    }
+
+    /** @brief change the type of the y axis from its default, 'linear', to 'log'
+     */
+    void yLog() {
+        AxisDirection dir = Y;
+        getAxis(dir, true)->setLog();
+    }
+
+    /** @brief change the type of the z axis from its default, 'linear', to 'log'
+     */
+    void zLog() {
+        AxisDirection dir = Z;
+        getAxis(dir, true)->setLog();
     }
 
 protected:
