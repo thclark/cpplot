@@ -64,7 +64,6 @@ public:
     };
 
     void setTitle(std::string label) {
-        std::cout << "setting title " << label << std::endl;
         title = label;
     };
 

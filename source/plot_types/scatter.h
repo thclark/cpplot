@@ -102,7 +102,6 @@ protected:
 /** @brief Serialise line data into a valid json string.
  */
 void to_json(nlohmann::json& j, const Line& p) {
-    std::cout << "In the serialiser" << std::endl;
     if (!p.dash.empty()) {
         j["dash"] = p.dash;
     };
