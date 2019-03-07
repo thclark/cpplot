@@ -99,7 +99,20 @@ TEST_F(FigureTest, test_scatter_plot) {
     ScatterPlot p = ScatterPlot();
     Figure fig = Figure();
     fig.add(p);
-    fig.write(TestDataDir().append("test_scatter_plot.json")), true, true;
+    fig.write(TestDataDir().append("test_scatter_plot.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_wide_coloured_dashed_scatter_plot) {
+
+    ScatterPlot p = ScatterPlot();
+    p.setWidth(1);
+    p.setDash("dash");
+    p.setColor("#e377c2");
+    Figure fig = Figure();
+    fig.add(p);
+    fig.write(TestDataDir().append("test_wide_coloured_dashed_scatter_plot"), true, true);
 
 }
 
