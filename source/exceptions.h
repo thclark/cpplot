@@ -20,12 +20,23 @@ struct NotImplementedException : public std::exception {
     }
 };
 
+
+struct InvalidAxisException : public std::exception {
+    std::string message = "Axis invalid or not present";
+    const char * what () const throw () {
+        return message.c_str();
+    }
+
+};
+
+
 struct InvalidOrMissingPlotlyCredentialsException : public std::exception {
     std::string message = "Invalid or missing plotly credentials. Try setting the environment variables PLOTLY_USERNAME and PLOTLY_PASSWORD.";
     const char * what () const throw () {
         return message.c_str();
     }
 };
+
 
 struct ErrorInPlotlyOnlineException : public std::exception {
     std::string message = "";

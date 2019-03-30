@@ -1,5 +1,5 @@
 /*
- * layout.h Brief overview sentence
+ * layout.h
  * 
  * Author:              Tom Clark  (thclark @ github)
  *
@@ -41,7 +41,7 @@ public:
     // Allow the serialiser function to access protected members
     friend void to_json(nlohmann::json& j, const Axis& p);
 
-    Axis(const AxisDirection dir, const std::string title="") : title(title) {
+    explicit Axis(const AxisDirection dir) : direction(dir){
         switch(dir){
             case X:
                 key = "xaxis";
@@ -55,9 +55,39 @@ public:
         }
     };
 
+    /** @brief Sets the direction of the axis, as X, Y, or Z
+     *
+     * @param dir Axis direction (an enum X, Y or Z)
+     */
+    void setDirection(AxisDirection dir) {
+        direction = dir;
+    };
+
+    void setTitle(std::string label) {
+        title = label;
+    };
+
+    void setLog() {
+        is_log = true;
+    };
+
+    AxisDirection getDirection() {
+        return direction;
+    };
+
+    std::string getTitle() {
+        return title;
+    };
+
+    bool isLog() {
+        return is_log;
+    };
+
 protected:
+    AxisDirection direction;
     std::string title;
     std::string key;
+    bool is_log = false;
 };
 
 
@@ -69,11 +99,11 @@ protected:
  * @endcode
  */
 void to_json(nlohmann::json& j, const Axis& p) {
-
-//    nlohmann::json axis_title;
-//    axis_title["text"] = p.title;
     nlohmann::json axis;
     axis["title"] = p.title;
+    if (p.is_log) {
+        axis["type"] = "log";
+    };
     j[p.key] = axis;
 }
 
@@ -91,54 +121,121 @@ public:
      * Layout my_layout = Layout("a graph title"); // Default constructor Layout() also works
      * my_layout.xLabel("ecks");
      * my_layout.yLabel("why";
+     * @endcode
+     *
      *
      */
-    Layout(const std::string title="") : title(title) {};
+    explicit Layout(const std::string title="", const bool is_scene=false) : title(title), is_scene(is_scene) {};
 
-    void xLabel(const std::string label) {
+    /** @brief get an axis in the layout by its direction. Optionally, create if not found.
+     *
+     * Example use:
+     * @code
+     * Layout my_layout = Layout("a graph title"); // Default constructor Layout() also works
+     * axis = my_layout.getAxis(X); // raises error
+     * axis = my_layout.getAxis(X, true); // creates the axis and adds it to the layout
+     * @endcode
+     *
+     * @param dir
+     * @return
+     */
+    Axis* getAxis(const AxisDirection &dir, bool create=false) {
+        for (auto &axis: axes) {
+            if (axis.getDirection() == dir) {
+                return &axis;
+            };
+        };
+        if (create) {
+            Axis ax(dir);
+            axes.push_back(ax);
+            // If a Z axis is created, turn the plot into a 3D scene
+            if (dir == Z) {
+                is_scene = true;
+            }
+            return &axes.back();
+        } else {
+            InvalidAxisException e;
+            throw (e);
+        };
+    }
+
+    /** @brief set the title of the x axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void xTitle(const std::string label) {
         AxisDirection dir = X;
-        Axis ax(dir, label);
-        axes.push_back(ax);
+        getAxis(dir, true)->setTitle(label);
     }
 
-    void yLabel(const std::string label) {
+    /** @brief set the title of the y axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void yTitle(const std::string label) {
         AxisDirection dir = Y;
-        Axis ax(dir, label);
-        axes.push_back(ax);
+        getAxis(dir, true)->setTitle(label);
     }
 
-    void zLabel(const std::string label) {
+    /** @brief set the title of the z axis
+     *
+     * @param[in] label the title of the axis. Can use latex within dollar signs, like "Normalised distance \$\eta\$"
+     */
+    void zTitle(const std::string label) {
         AxisDirection dir = Z;
-        Axis ax(dir, label);
-        axes.push_back(ax);
+        getAxis(dir, true)->setTitle(label);
+    }
+
+    /** @brief change the type of the x axis from its default, 'linear', to 'log'
+     */
+    void xLog() {
+        AxisDirection dir = X;
+        getAxis(dir, true)->setLog();
+    }
+
+    /** @brief change the type of the y axis from its default, 'linear', to 'log'
+     */
+    void yLog() {
+        AxisDirection dir = Y;
+        getAxis(dir, true)->setLog();
+    }
+
+    /** @brief change the type of the z axis from its default, 'linear', to 'log'
+     */
+    void zLog() {
+        AxisDirection dir = Z;
+        getAxis(dir, true)->setLog();
     }
 
 protected:
 
     std::vector<Axis> axes;
     std::string title;
+    bool is_scene;
+
 };
 
 
 /** @brief Serialise layout into a valid json string.
  *
- * Produces figure data JSON similar to:
- *      {"x": ["giraffes", "orangutans", "monkeys"],
- *       "y": [20.1, 14.4, 23.3],
- *       "type": "bar"}
  */
 void to_json(nlohmann::json& j, const Layout& p) {
 
     if (!p.title.empty()) {
         j["title"] = p.title;
     };
-
-    for (auto it = 0; it < p.axes.size(); it++) {
+    nlohmann::json axes;
+    for (auto &axis : p.axes) {
         nlohmann::json ax;
-        to_json(ax, p.axes[it]);
-        j.update(ax);
+        to_json(ax, axis);
+        axes.update(ax);
     };
-}
+    if (p.is_scene) {
+        j["scene"] = axes;
+    } else {
+        j.update(axes);
+    };
+};
 
 
 }; // end namespace cpplot

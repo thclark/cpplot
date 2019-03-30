@@ -99,7 +99,20 @@ TEST_F(FigureTest, test_scatter_plot) {
     ScatterPlot p = ScatterPlot();
     Figure fig = Figure();
     fig.add(p);
-    fig.write(TestDataDir().append("test_scatter_plot.json")), true, true;
+    fig.write(TestDataDir().append("test_scatter_plot.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_wide_coloured_dashed_scatter_plot) {
+
+    ScatterPlot p = ScatterPlot();
+    p.setWidth(1);
+    p.setDash("dash");
+    p.setColor("#e377c2");
+    Figure fig = Figure();
+    fig.add(p);
+    fig.write(TestDataDir().append("test_wide_coloured_dashed_scatter_plot"), true, true);
 
 }
 
@@ -141,6 +154,44 @@ TEST_F(FigureTest, test_surface_plot) {
 }
 
 
+TEST_F(FigureTest, test_mandelbrot_plot) {
+
+    Figure fig = Figure();
+    SurfacePlot p = SurfacePlot();
+
+    int height = 600;
+    int width = 600;
+    int max_iterations = 16;
+
+    p.x = Eigen::RowVectorXd::LinSpaced(width, -1.5, 0.6).replicate(height, 1).array();
+    p.y = Eigen::VectorXd::LinSpaced(height, -1.26, 1.26).replicate(1, width).array();
+    p.z = Eigen::ArrayXXd(width, height);
+
+    // Loop to produce the fractal set
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            double a = p.x(i,j);
+            double b = p.y(i,j);
+            double xn = 0.0;
+            double yn = 0.0;
+            int k = 1;
+            while ((k <= max_iterations) && ((pow(xn, 2.0) - pow(yn, 2.0)) < 4.0)) {
+                double xnew = pow(xn, 2.0) - pow(yn, 2.0) + a;
+                double ynew = 2.0 * xn * yn + b;
+                xn = xnew;
+                yn = ynew;
+                k = k + 1;
+            };
+            p.z(i,j) = k;
+        };
+    };
+
+    fig.add(p);
+    fig.write(TestDataDir().append("test_mandelbrot_plot.json"), true, true);
+
+}
+
+
 TEST_F(FigureTest, test_eigen_serialiser) {
 
     nlohmann::json j;
@@ -176,10 +227,25 @@ TEST_F(FigureTest, test_layout) {
     ScatterPlot p = ScatterPlot();
     fig.add(p);
     Layout lay = Layout("Graph Title");
-    lay.xLabel("ecks");
-    lay.yLabel("why");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
     fig.setLayout(lay);
     fig.write(TestDataDir().append("test_layout_plot.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_3d_axes_labels) {
+
+    Figure fig = Figure();
+    SurfacePlot p = SurfacePlot();
+    fig.add(p);
+    Layout lay = Layout("Graph Title");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
+    lay.zTitle("zedd");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_3d_axes_labels.json"), true, true);
 
 }
 
@@ -190,23 +256,259 @@ TEST_F(FigureTest, test_layout_no_title) {
     ScatterPlot p = ScatterPlot();
     fig.add(p);
     Layout lay = Layout();
-    lay.xLabel("ecks");
-    lay.yLabel("why");
+    lay.xTitle("ecks");
+    lay.yTitle("why");
     fig.setLayout(lay);
     fig.write(TestDataDir().append("test_layout_no_title_plot.json"), true, true);
 
 }
 
-//// Test the osstream operator works. Bloody thing.
-//TEST_F(FigureTest, test_figure_ostream) {
-//
-//    // Example bar chart
-//    BarPlot p = BarPlot();
-//    std::cout << p.toJson() << std::endl;
-//
-//    // Send to plotly for rendering
-//    Figure<BarPlot> fig = Figure<BarPlot>(p);
-//
-//    std::cout << fig << std::endl;
-//
-//}
+
+TEST_F(FigureTest, test_latex_labels) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    p.name = "$\\eta_{12}$";
+    fig.add(p);
+    Layout lay = Layout();
+    lay.xTitle("$x + y$");
+    lay.yTitle("$d, r \\\\text{(solar radius)}$");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_latex_labels.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_log_axes) {
+
+    Figure fig = Figure();
+    ScatterPlot p = ScatterPlot();
+    p.x = Eigen::RowVectorXd::LinSpaced(100, 1, 100000);
+    p.y = 2.0 * p.x;
+    p.name = "relationship";
+    fig.add(p);
+    Layout lay = Layout();
+    lay.xTitle("x");
+    lay.yTitle("y");
+    lay.xLog();
+    lay.yLog();
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_log_axes.json"), true, true);
+
+}
+
+
+TEST_F(FigureTest, test_wolfgang) {
+
+    double dx = 1.2;
+    double dy = 1.1;
+
+
+    Figure fig = Figure();
+    ScatterPlot h = ScatterPlot();
+    h.x = Eigen::ArrayXd(6);
+    h.x << 0, 0, 0, 0.8, 0.8, 0.8;
+    h.y = Eigen::ArrayXd(6);
+    h.y << 0, 1, 0.5, 0.5, 1, 0;
+    h.y = h.y.array() + dy;
+    h.name = "H";
+    fig.add(h);
+
+    ScatterPlot a = ScatterPlot();
+    a.x = Eigen::ArrayXd(6);
+    a.x << 0, 0.4, 0.5, 0.3, 0.5, 0.8;
+    a.x = a.x.array() + dx;
+    a.y = Eigen::ArrayXd(6);
+    a.y << 0, 1, 0.5, 0.5, 0.5, 0;
+    a.y = a.y.array() + dy;
+    a.name = "A";
+    fig.add(a);
+
+    ScatterPlot p = ScatterPlot();
+    p.x = Eigen::ArrayXd(5);
+    p.x << 0, 0, 0.8, 0.8, 0;
+    p.x = p.x.array() + 2*dx;
+    p.y = Eigen::ArrayXd(5);
+    p.y << 0, 1, 1, 0.6, 0.6;
+    p.y = p.y.array() + dy;
+    p.name = "P";
+    fig.add(p);
+
+    ScatterPlot p2 = ScatterPlot();
+    p2.x = Eigen::ArrayXd(5);
+    p2.x << 0, 0, 0.8, 0.8, 0;
+    p2.x = p2.x.array() + 3*dx;
+    p2.y = Eigen::ArrayXd(5);
+    p2.y << 0, 1, 1, 0.6, 0.6;
+    p2.y = p2.y.array() + dy;
+    p2.name = "P";
+    fig.add(p2);
+
+    ScatterPlot y = ScatterPlot();
+    y.x = Eigen::ArrayXd(6);
+    y.x << 0, 0, 0.8, 0.8, 0.8, 0.4;
+    y.x = y.x.array() + 4*dx;
+    y.y = Eigen::ArrayXd(6);
+    y.y << 1, 0.6, 0.6, 1, 0, 0;
+    y.y = y.y.array() + dy;
+    y.name = "Y";
+    fig.add(y);
+
+    ScatterPlot b = ScatterPlot();
+    b.x = Eigen::ArrayXd(6);
+    b.x << 0, 0, 0.8, 0, 0.8, 0;
+    b.x = b.x.array() + 6*dx;
+    b.y = Eigen::ArrayXd(6);
+    b.y << 0, 1, 0.66, 0.5, 0.33, 0;
+    b.y = b.y.array() + dy;
+    b.name = "B";
+    fig.add(b);
+
+    ScatterPlot i = ScatterPlot();
+    i.x = Eigen::ArrayXd(6);
+    i.x << 0, 0.8, 0.4, 0.4, 0, 0.8;
+    i.x = i.x.array() + 7*dx;
+    i.y = Eigen::ArrayXd(6);
+    i.y << 1, 1, 1, 0, 0, 0;
+    i.y = i.y.array() + dy;
+    i.name = "I";
+    fig.add(i);
+
+    ScatterPlot r = ScatterPlot();
+    r.x = Eigen::ArrayXd(6);
+    r.x << 0, 0, 0.8, 0.8, 0, 0.8;
+    r.x = r.x.array() + 8*dx;
+    r.y = Eigen::ArrayXd(6);
+    r.y << 0, 1, 1, 0.6, 0.6, 0;
+    r.y = r.y.array() + dy;
+    r.name = "R";
+    fig.add(r);
+
+    ScatterPlot t = ScatterPlot();
+    t.x = Eigen::ArrayXd(7);
+    t.x << 0.3, 0.3, 0, 0.8, 0.3, 0.3, 0.8;
+    t.x = t.x.array() + 9*dx;
+    t.y = Eigen::ArrayXd(7);
+    t.y << 1, 0.6, 0.6, 0.6, 0.6, 0, 0;
+    t.y = t.y.array() + dy;
+    t.name = "T";
+    fig.add(t);
+
+    ScatterPlot h2 = ScatterPlot();
+    h2.x = Eigen::ArrayXd(6);
+    h2.x << 0, 0, 0, 0.8, 0.8, 0.8;
+    h2.x = h2.x.array() + 10*dx;
+    h2.y = Eigen::ArrayXd(6);
+    h2.y << 0, 1, 0.5, 0.5, 1, 0;
+    h2.y = h2.y.array() + dy;
+    h2.name = "H";
+    fig.add(h2);
+
+    ScatterPlot d = ScatterPlot();
+    d.x = Eigen::ArrayXd(5);
+    d.x << 0, 0, 0.8, 0.8, 0;
+    d.x = d.x.array() + 11*dx;
+    d.y = Eigen::ArrayXd(5);
+    d.y << 0, 1, 0.8, 0.2, 0;
+    d.y = d.y.array() + dy;
+    d.name = "D";
+    fig.add(d);
+
+    ScatterPlot a2 = ScatterPlot();
+    a2.x = Eigen::ArrayXd(6);
+    a2.x << 0, 0.4, 0.5, 0.3, 0.5, 0.8;
+    a2.x = a2.x.array() + 12*dx;
+    a2.y = Eigen::ArrayXd(6);
+    a2.y << 0, 1, 0.5, 0.5, 0.5, 0;
+    a2.y = a2.y.array() + dy;
+    a2.name = "A";
+    fig.add(a2);
+
+    ScatterPlot y2 = ScatterPlot();
+    y2.x = Eigen::ArrayXd(6);
+    y2.x << 0, 0, 0.8, 0.8, 0.8, 0.4;
+    y2.x = y2.x.array() + 13*dx;
+    y2.y = Eigen::ArrayXd(6);
+    y2.y << 1, 0.6, 0.6, 1, 0, 0;
+    y2.y = y2.y.array() + dy;
+    y2.name = "Y";
+    fig.add(y2);
+
+    ScatterPlot w = ScatterPlot();
+    w.x = Eigen::ArrayXd(5);
+    w.x << 0, 0.2, 0.4, 0.6, 0.8;
+    w.x = w.x.array() + 0*dx;
+    w.y = Eigen::ArrayXd(5);
+    w.y << 1, 0, 0.6, 0, 1;
+    w.name = "W";
+    fig.add(w);
+
+    ScatterPlot o = ScatterPlot();
+    o.x = Eigen::ArrayXd(5);
+    o.x << 0, 0.8, 0.8, 0, 0;
+    o.x = o.x.array() + 1*dx;
+    o.y = Eigen::ArrayXd(5);
+    o.y << 0, 0, 1, 1, 0;
+    o.name = "O";
+    fig.add(o);
+
+    ScatterPlot l = ScatterPlot();
+    l.x = Eigen::ArrayXd(3);
+    l.x << 0, 0, 0.8;
+    l.x = l.x.array() + 2*dx;
+    l.y = Eigen::ArrayXd(3);
+    l.y << 1, 0, 0;
+    l.name = "L";
+    fig.add(l);
+
+    ScatterPlot f = ScatterPlot();
+    f.x = Eigen::ArrayXd(6);
+    f.x << 0, 0, 0.8, 0, 0, 0.6;
+    f.x = f.x.array() + 3*dx;
+    f.y = Eigen::ArrayXd(6);
+    f.y << 0, 1, 1, 1, 0.6, 0.6;
+    f.name = "F";
+    fig.add(f);
+
+    ScatterPlot g = ScatterPlot();
+    g.x = Eigen::ArrayXd(8);
+    g.x << 0, 0.8, 0.8, 0, -0.05, 0, 0, 0.8;
+    g.x = g.x.array() + 4*dx;
+    g.y = Eigen::ArrayXd(8);
+    g.y << 0, 0, 1, 1, 1.05, 1, 0.6, 0.6;
+    g.name = "G";
+    fig.add(g);
+
+    ScatterPlot a3 = ScatterPlot();
+    a3.x = Eigen::ArrayXd(6);
+    a3.x << 0, 0.4, 0.5, 0.3, 0.5, 0.8;
+    a3.x = a3.x.array() + 5*dx;
+    a3.y = Eigen::ArrayXd(6);
+    a3.y << 0, 1, 0.5, 0.5, 0.5, 0;
+    a3.name = "A";
+    fig.add(a3);
+    ScatterPlot n = ScatterPlot();
+    n.x = Eigen::ArrayXd(4);
+    n.x << 0, 0, 0.8, 0.8;
+    n.x = n.x.array() + 6*dx;
+    n.y = Eigen::ArrayXd(4);
+    n.y << 0, 1, 0, 1;
+    n.name = "N";
+    fig.add(n);
+
+    ScatterPlot g2 = ScatterPlot();
+    g2.x = Eigen::ArrayXd(8);
+    g2.x << 0, 0.8, 0.8, 0, -0.05, 0, 0, 0.8;
+    g2.x = g2.x.array() + 7*dx;
+    g2.y = Eigen::ArrayXd(8);
+    g2.y << 0, 0, 1, 1, 1.05, 1, 0.6, 0.6;
+    g2.name = "G";
+    fig.add(g2);
+
+    Layout lay = Layout();
+    lay.xTitle("Wishes");
+    lay.yTitle("Best");
+    fig.setLayout(lay);
+    fig.write(TestDataDir().append("test_wolfgang.json"), true, true);
+
+}
