@@ -26,11 +26,6 @@ if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
     # If windows, set find_library_suffixes to both static and shared(.lib; .dll)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_SUFFIX})
 
-    # Set variables for the embedded FIND_GTEST function.
-    set(GTEST_ROOT ${THIRD_PARTY_DIR}/googletest/googletest)
-    set (GTEST_MSVC_SEARCH MT)
-    message("-- Defined GTEST_ROOT: ${GTEST_ROOT}")
-
 endif()
 
 
