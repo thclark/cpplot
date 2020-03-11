@@ -17,12 +17,9 @@ set(JSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/json/src PARENT_SCOPE)
 include_directories(${JSON_INCLUDE_DIRS})
 
 # Add boost
+set(Boost_USE_MULTITHREADED TRUE)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-
-# Add the gflags dependency
-set(gflags_DIR ${THIRD_PARTY_DIR}/gflags)
-# TODO find/add the gflags package!
 
 # Add the glog dependency
 if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -54,7 +51,8 @@ set(SOURCE_FILES
         plot_types/scatter.h
         plot_types/surface.h
         online.h
-        eigen.h layout.h)
+        eigen.h
+        layout.h)
 add_library(cpplot STATIC ${SOURCE_FILES})
 message("-- Source files for library cpplot: ${SOURCE_FILES}")
 
@@ -75,6 +73,6 @@ else ()
     target_link_libraries(cpplot-examples cpplot ${EIGEN_LIBRARIES} ${GLOG_LIBRARIES} ${Boost_LIBRARIES} ${CPR_LIBRARIES})
 endif ()
 
-message("-- Install directory is "${CMAKE_INSTALL_PREFIX})
+message("-- Install directory is " ${CMAKE_INSTALL_PREFIX})
 install (TARGETS cpplot DESTINATION lib)
 install (FILES cpplot.h json/single_include/nlohmann/json.hpp DESTINATION include)
