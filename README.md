@@ -1,9 +1,11 @@
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![black-girls-code](https://img.shields.io/badge/black%20girls-code-f64279.svg)](https://www.blackgirlscode.com/)
+
+
 # cpplot
 
-> **Work is in progress to refactor this out from other libraries. Watch this space.**
-
 Interactive graphs and charts for C++ 11 upward,
-[interactively viewable in-browser using cpplot-viewer](https://cpplot.herokuapp.com).
+[viewable in-browser using cpplot-viewer](https://cpplot.herokuapp.com).
 
 This library allows you to save figure files (in a *.json form compliant with the `plotly.js` library) to disk
 during program execution.
@@ -69,6 +71,29 @@ We use the [Google C++ style guide](https://google.github.io/styleguide/cppguide
  - Don't care about line width so long as its within reason
  - Use 4 space indenting, not 2 as suggested by the style guide, because we're not [total monsters](https://www.youtube.com/watch?v=SsoOG6ZeyUI) (just kidding xx).
 
+### Pre-Commit
+
+You need to install pre-commit to get the hooks working. Do:
+```
+pip install pre-commit
+pre-commit install
+```
+
+Once that's done, each time you make a commit, the following checks are made:
+
+- valid github repo and files
+- code style
+- documentation build
+
+Upon failure, the commit will halt. **Re-running the commit will automatically fix most issues** except:
+- You'll have to fix documentation yourself prior to a successful commit (there's no auto fix for that!!).
+
+You can run pre-commit hooks without making a commit like:
+```
+pre-commit run build-docs
+```
+which is useful to locally build documents without crazy effort setting up an environment for sphinx.
+
 ### Threading
 
 Figure write-to-disk is called as an async task, so doesn't block the main computation thread.
@@ -85,7 +110,6 @@ We are currently using:
 [**glog**](https://github.com/google/glog) google's asynchronous logging library, used for logging to file.
 
 [**googletest**](https://github.com/google/googletest) for unit testing.
-
 ### Submodule dependencies
 
 You'll need to clone the repository **and its submodules, cpr and json,** in order to build it.
