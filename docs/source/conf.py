@@ -32,8 +32,8 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
-    'breathe', # TODO re-add once conan is taking care of dependencies
-    'exhale'   # TODO because exhale can't cope with the json module
+    'breathe',
+    'exhale',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -105,7 +105,7 @@ breathe_projects = {
 breathe_default_project = "My Project"
 
 # Setup the exhale extension
-# TODO remove the ../..source/cpr*, ../../source/json* exclusions once building with conan instead of subrepos
+# TODO reset the doxygen input to ../../source once conan installation done, this should resent the build correctly
 exhale_args = {
     # These arguments are required
     "containmentFolder":     "./library_api",
@@ -117,7 +117,9 @@ exhale_args = {
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
     "exhaleExecutesDoxygen": True,
-    "exhaleDoxygenStdin":    "INPUT = ../../source/cpplot*  ../../source/exceptions*  ../../source/eigen*  ../../source/layout*  ../../source/plot_types/*  EXCLUDE = ../../source/json* ../../source/cpr*"
+    # TODO can't build the api docs while json.hpp is there. Fix once #6 is complete.
+    # "exhaleDoxygenStdin":    "INPUT = ../../source ../../source/plot_types"
+    "exhaleDoxygenStdin":    "INPUT = ../../source/nowhere"
 }
 
 # Tell sphinx what the primary language being documented is

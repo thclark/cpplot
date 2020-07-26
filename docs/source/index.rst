@@ -39,4 +39,5 @@ Insert your personal rant here...
    quick_start
    example_chapter
    license
+   library_api/library_root
    version_history
