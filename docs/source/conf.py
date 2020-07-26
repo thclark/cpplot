@@ -25,15 +25,15 @@ import sphinx_rtd_theme
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-# Breate and exhale are added as recommended by:
+# Breathe and exhale are added as recommended by:
 #   https://exhale.readthedocs.io/en/latest/usage.html#usage-quickstart-guide
 extensions = [
     'sphinx.ext.todo',
     'sphinx_tabs.tabs',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
-    'breathe',
-    'exhale'
+    # 'breathe', # TODO re-add once conan is taking care of dependencies
+    # 'exhale'   # TODO because exhale can't cope with the json module
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'cpplot'
-copyright = u'Copyright 2017-20 Tom Clark'
+copyright = u'2017-20 Tom Clark'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -105,6 +105,7 @@ breathe_projects = {
 breathe_default_project = "My Project"
 
 # Setup the exhale extension
+# TODO remove the ../..source/cpr*, ../../source/json* exclusions once building with conan instead of subrepos
 exhale_args = {
     # These arguments are required
     "containmentFolder":     "./library_api",
@@ -116,14 +117,14 @@ exhale_args = {
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
     "exhaleExecutesDoxygen": True,
-    "exhaleDoxygenStdin":    "INPUT = ../../source"
+    "exhaleDoxygenStdin":    "INPUT = ../../source/cpplot*  ../../source/exceptions*  ../../source/eigen*  ../../source/layout*  ../../source/plot_types/*  EXCLUDE = ../../source/json* ../../source/cpr*"
 }
 
 # Tell sphinx what the primary language being documented is
-primary_domain = 'python'
+primary_domain = 'cpp'
 
 # Tell sphinx what the pygments highlight language should be
-highlight_language = 'python'
+highlight_language = 'cpp'
 
 
 # -- Options for HTML output ---------------------------------------------------
@@ -146,7 +147,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_title = "cpplot: JSON based figures for C++"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-# html_short_title = None
+html_short_title = "cpplot"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -223,7 +224,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'cpplot.tex', u'cpplot',
-   u'T. Clark', 'manual'),
+   u'Tom Clark', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -253,7 +254,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'cpplot', u'cpplot',
-     [u'T. Clark'], 1)
+     [u'Tom Clark'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -267,7 +268,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'cpplot', u'cpplot',
-   u'T. Clark', 'cpplot', 'JSON based figures for C++',
+   u'Tom Clark', 'cpplot', 'JSON based figures for C++',
    'Miscellaneous'),
 ]
 
