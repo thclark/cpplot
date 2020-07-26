@@ -27,7 +27,7 @@
         "cmakeCommandArgs": "-T host=x64",
         "buildCommandArgs": "-m -v:minimal",
         "ctestCommandArgs": ""
-        
+
       },
       {
         "name": "x64-Release",

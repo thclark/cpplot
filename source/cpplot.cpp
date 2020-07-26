@@ -7,7 +7,7 @@
  *
  * Future Improvements:
  *
- *   [1] 
+ *   [1]
  *
  * Author:              Tom Clark  (thclark@github)
  *
@@ -23,4 +23,3 @@ namespace cpplot {
 
 
 } // end namespace
-

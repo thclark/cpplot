@@ -1,6 +1,6 @@
 /*
  * scatter.h ScatterPlot data class
- * 
+ *
  * Author:              Tom Clark  (thclark@github)
  *
  * Copyright (c) 2017-9 T Clark. All Rights Reserved.
