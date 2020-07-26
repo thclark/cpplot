@@ -5,33 +5,57 @@ Installation
 ============
 
 .. ATTENTION::
-    We're working on it. I promise.
+    `We're working on it. I promise. <https://github.com/thclark/cpplot/issues/6>`_
 
-TODO
+    Until we get conan or vcpkg up and running, installation is via cmake.
 
-.. code-block:: py
+.. _upgrading_from_previous_versions:
 
-    TODO
-
-
-.. _compilation:
-
-Compilation
-============
-
-TODO
-
-.. _third_party_library_installation:
-
-Third party library installation
+Upgrading from previous versions
 ================================
 
-TODO
+Please see the note on version stability and backward compatibility :ref:`here<_stability>`.
 
 
-.. _third_party_build_requirements:
+.. _third_party_dependencies:
 
-Third party build requirements
-==============================
+Third party dependencies
+========================
 
-TODO
+Install and link
+----------------
+
+`**Eigen** <http://eigen.tuxfamily.org/>`__ provides a linear algebra
+library. It isn't as consistent with MATLAB's API as armadillo (an
+alternative), but the API is very understandable and is used extensively
+in the C++ community.
+
+`**glog** <https://github.com/google/glog>`__ google's asynchronous
+logging library, used for logging to file.
+
+`**googletest** <https://github.com/google/googletest>`__ for unit
+testing.
+
+
+Submodule dependencies
+----------------------
+
+We also use `cpr <https://github.com/whoshuu/cpr>`__ and `json <https://github.com/nlohmann/json>`__, which are included as submodule dependencies.
+
+**THIS WILL CHANGE VERY SOON!** But for now, you'll need to clone the repository **and its submodules, cpr and
+json,** in order to build it.
+
+.. code:: bash
+
+    git clone --recurse-submodules https://github.com/thclark/cpplot
+
+
+.. _compilation_with_cmake:
+
+Compilation with cmake
+======================
+
+A cross-platform compilation file is provided using cmake, but it's
+**not tested on windows**.
+
+PRs to fix or improve it for windows are most welcome.

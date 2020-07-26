@@ -1,3 +1,4 @@
+|pre-commit| |black-girls-code|
 
 .. ATTENTION::
     This library is in use in several projects, but it's still early days.
@@ -7,37 +8,36 @@
     `roadmap <https://github.com/thclark/cpplot/projects/1>`_.
 
 
-=============
-Library Title
-=============
-
-**{{library_name}}** is a library to do stuff.
+======
+cpplot
+======
 
 .. epigraph::
-   *"cpplot" ~ figures from C++, viewable in browser*
+   *"cpplot" ~ interactive figures you can show on the web*
 
-Introduce the library here.
+This library allows you to create interactive graphs and charts in C++ 11 upward, which are
+`viewable in-browser <https://cpplot.herokuapp.com>`_.
 
-Some parts of ReStructuredText (rst) are shown to help you write your docs in :ref:`a_chapter`.
+You can save figures to disc as ``\*.json`` files. Their contents are compliant with the
+``plotly.js`` library schema so figures can be rendered in javascript.
 
+Get going with the :ref:`quick start<_quick_start>`, or :ref:`read about why I started this<_why>`...
 
-
-.. _reason_for_being:
-
-Raison d'etre
-=============
-
-Insert your personal rant here...
-
-
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
 
-   self
-   installation
    quick_start
-   example_chapter
+   installation
+   about
    license
    library_api/library_root
    version_history
+
+
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+.. |black-girls-code| image:: https://img.shields.io/badge/black%20girls-code-f64279.svg
+   :target: https://www.blackgirlscode.com/

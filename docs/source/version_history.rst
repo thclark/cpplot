@@ -4,43 +4,51 @@
 Version History
 ===============
 
+.. _origins:
+
 Origins
 =======
 
-A bit of background....
+This library was hacked together / extracted from other repositories such as `the es-flow library <https://es-flow.readthedocs.io/en/latest/>`__ due to the
+need for a plotting library enabling me to deliver results over the web.
 
-.. _version_0.0.x:
+As more stars are being added on GitHub (14 at the time of writing, woot woot!) it's now worth properly versioning
+and maintaining the effort, since it seems like it's useful to more people than just me.
 
-0.0.x
+.. _stability:
+
+Stability
+=========
+
+The library uses semver versioning, like `version x.y.z`.
+
+Theoretically, only `x` increments should break backward compatibility. But, it's still early days as noted in
+`issue 10 <https://github.com/thclark/cpplot/issues/10>`__ and I don't want to end up on version 200.4.5 in
+the next five minutes...
+
+**Let's be pragmatic:** whilst still on version `0.0.z` please consider the API as unstable
+version-to-version (z increments). This is because I (or we -
+`please help <https://github.com/thclark/cpplot/issues/10>`_!) will be still architecting the library sensibly.
+
+**When I break it, I'll at least tell you what's breaking! Check back here as you update.**
+
+For `versions >= 0.x.y` expect `y` increments not to break, breaking changes might occur on `x` increments.
+
+For `versions >= x.y.z` where `x >= 1` expect `x` increments to break backward compatibility.
+
+
+.. _version_0.0.1:
+
+0.0.1
 =====
 
-Something about this release
+Initial version applied to the library
 
 New Features
 ------------
-#. Blah
-#. Bleep
-
-Backward Incompatible API Changes
----------------------------------
-#. n/a (Initial release)
-
-Bug Fixes & Minor Changes
--------------------------
-#. n/a (Initial Release)
-
-
-.. _version_0.0.y:
-
-0.0.y
-=====
-
-You get it...
-
-New Features
-------------
-#. Blah
-#. Bleep
+#. Documentation in RestructuredText and hooked for public viewing on `readthedocs <https://cpplot.readthedocs.io>`__.
+#. Pre-commit hooks added to ensure docs always build (whatever commit you're at) and to apply consistent file formats.
+#. Implemented semver versioning system which will be done with GitHub releases.
 
 Backward Incompatible API Changes
 ---------------------------------
