@@ -32,8 +32,8 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
-    # 'breathe', # TODO re-add once conan is taking care of dependencies
-    # 'exhale'   # TODO because exhale can't cope with the json module
+    'breathe', # TODO re-add once conan is taking care of dependencies
+    'exhale'   # TODO because exhale can't cope with the json module
 ]
 
 # Add any paths that contain templates here, relative to this directory.
