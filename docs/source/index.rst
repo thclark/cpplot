@@ -1,4 +1,4 @@
-|pre-commit| |black-girls-code|
+|pre-commit| |black-girls-code| |license|
 
 .. ATTENTION::
     This library is in use in several projects, but it's still early days.
@@ -21,7 +21,7 @@ This library allows you to create interactive graphs and charts in C++ 11 upward
 You can save figures to disc as ``\*.json`` files. Their contents are compliant with the
 ``plotly.js`` library schema so figures can be rendered in javascript.
 
-Get going with the :ref:`quick start<_quick_start>`, or :ref:`read about why I started this<_why>`...
+Get going with the :ref:`quick start <quick_start>`, or :ref:`read about why I started this <why>`...
 
 Contents
 ========
@@ -41,3 +41,5 @@ Contents
    :target: https://github.com/pre-commit/pre-commit
 .. |black-girls-code| image:: https://img.shields.io/badge/black%20girls-code-f64279.svg
    :target: https://www.blackgirlscode.com/
+.. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: https://github.com/thclark/cpplot/blob/master/LICENSE
