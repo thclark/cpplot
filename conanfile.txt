@@ -1,0 +1,11 @@
+ [requires]
+ eigen/3.3.7
+ nlohmann_json/3.8.0
+ cpr/1.5.0
+ boost/1.73.0
+ glog/0.4.0
+ gtest/1.10.0
+ tbb/2020.1
+
+ [generators]
+ cmake

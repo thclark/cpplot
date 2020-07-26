@@ -13,7 +13,7 @@
 #include <vector>
 #include <string.h>
 #include <Eigen/Dense>
-#include <json/single_include/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "eigen.h"
 #include "exceptions.h"

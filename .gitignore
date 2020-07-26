@@ -1,7 +1,6 @@
 ####################### Build directories
-build/
-lib/
-bin/
+lib
+bin
 cmake-build-debug
 cmake-build-release
 

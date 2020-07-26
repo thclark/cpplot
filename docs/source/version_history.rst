@@ -57,3 +57,26 @@ Backward Incompatible API Changes
 Bug Fixes & Minor Changes
 -------------------------
 #. n/a (Initial Release)
+
+
+.. _version_0.0.2:
+
+0.0.2
+=====
+
+Updated build system to use conan for third party dependencies
+
+New Features
+------------
+#. Documentation updated with a correct installation method
+#. Conan package manager built into cmake for easier dependency management
+#. Huge amount of custom cmake code (there to find and cope with third party deps removed)
+
+Backward Incompatible API Changes
+---------------------------------
+#. No API changes
+#. Build systems updated; now requires conan.
+
+Bug Fixes & Minor Changes
+-------------------------
+#. n/a (Initial Release)
