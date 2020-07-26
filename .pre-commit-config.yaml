@@ -12,8 +12,8 @@ repos:
       - id: check-yaml
         language_version: python3
 
-  - repo: https://github.com/thclark/pre-commit-sphinx
-    rev: 0.0.1
-    hooks:
-      - id: build-docs
-        language_version: python3
+#  - repo: https://github.com/thclark/pre-commit-sphinx
+#    rev: 0.0.1
+#    hooks:
+#      - id: build-docs
+#        language_version: python3
