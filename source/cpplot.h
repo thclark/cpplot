@@ -30,8 +30,7 @@
 #include <Eigen/Dense>
 #include <boost/algorithm/string.hpp>
 #include <boost/any.hpp>
-// Moved file from #include <json/single_include/nlohmann/json.hpp> to avoid having to install json as a dependency whenever we install or use cpplot
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include "exceptions.h"
 #include "eigen.h"
 #include "layout.h"
