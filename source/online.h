@@ -8,9 +8,9 @@
  *
  * Future Improvements:
  *
- *   [1] 
+ *   [1]
  *
- * 
+ *
  * Author:              Tom Clark  (thclark@github)
  *
  * Copyright (c) 2017-8 T Clark. All Rights Reserved.

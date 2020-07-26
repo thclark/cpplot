@@ -1,6 +1,6 @@
 /*
  * layout.h
- * 
+ *
  * Author:              Tom Clark  (thclark @ github)
  *
  * Copyright (c) 2019 Octue Ltd. All Rights Reserved.
