@@ -117,9 +117,7 @@ exhale_args = {
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
     "exhaleExecutesDoxygen": True,
-    # TODO can't build the api docs while json.hpp is there. Fix once #6 is complete.
-    # "exhaleDoxygenStdin":    "INPUT = ../../source ../../source/plot_types"
-    "exhaleDoxygenStdin":    "INPUT = ../../source/nowhere"
+    "exhaleDoxygenStdin":    "INPUT = ../../source ../../source/plot_types"
 }
 
 # Tell sphinx what the primary language being documented is
