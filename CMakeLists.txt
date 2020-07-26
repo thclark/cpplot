@@ -17,19 +17,6 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 
-#if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-#
-#    # Set run-time library building default to static. This only applies to MSVS compiler,
-#    # since all google units have default MT.
-#    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-#    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-#
-#    # If windows, set find_library_suffixes to both static and shared(.lib; .dll)
-#    set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_SUFFIX})
-#
-#endif()
-
-
 # Add include directories so the test routines can pick up the library contents
 include_directories(source)
 
