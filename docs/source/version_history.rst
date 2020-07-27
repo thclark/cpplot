@@ -85,7 +85,7 @@ Bug Fixes & Minor Changes
 0.0.3
 =====
 
-Updated build system and
+Minor fixes to build system and docs
 
 New Features
 ------------
