@@ -80,3 +80,22 @@ Backward Incompatible API Changes
 Bug Fixes & Minor Changes
 -------------------------
 #. n/a (Initial Release)
+
+
+0.0.3
+=====
+
+Updated build system and
+
+New Features
+------------
+#. n/a
+
+Backward Incompatible API Changes
+---------------------------------
+#. n/a
+
+Bug Fixes & Minor Changes
+-------------------------
+#. Fix for building against glog on windows
+#. Corrected build instructions in documentation
