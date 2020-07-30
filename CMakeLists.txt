@@ -7,9 +7,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 
 # Set make options
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# Lets glog play more nicely with Windows
+IF(CMAKE_SYSTEM_NAME STREQUAL Windows)
+    add_definitions(-DGLOG_NO_ABBREVIATED_SEVERITIES)
+endif()
 
 # Add third party tools required by conan
 message("-- Adding dependencies with conan. Make sure you've called `conan install . --install-folder ${CMAKE_BINARY_DIR}`")
