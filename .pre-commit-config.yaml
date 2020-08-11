@@ -17,3 +17,18 @@ repos:
     hooks:
       - id: build-docs
         language_version: python3
+
+  - repo: https://github.com/windpioneers/pre-commit-hooks
+    rev: 0.0.5
+    hooks:
+      - id: check-branch-name
+        args:
+          - '^master$'
+          - '^dev$'
+          - '^devops/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^doc/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^feature/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^fix/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^hotfix/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^review/([a-z][a-z0-9]*)(-[a-z0-9]+)*$'
+          - '^release/(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
