@@ -118,3 +118,4 @@ Bug Fixes & Minor Changes
 -------------------------
 #. Removed unused cpr dependency from build system
 #. Updated docs to reflect the removed dep and to close #17
+#. Added a branch naming rule to the git pre-commit
