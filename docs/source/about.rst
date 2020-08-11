@@ -85,7 +85,7 @@ importable there, since it's compliant with their schema.
 
 I'm not a marketing person for plotly, so how to do that is out of scope here (check their docs)!!
 
-I have a branch that has some code using the Plotly API,
+I have some code using the Plotly API (`see online.h <https://github.com/thclark/cpplot/blob/458d26f99aa4298e7260bb5da65ba7915f098f5f/source/online.h#L160>`__ ),
 which might be the very early beginning of a client SDK for C++,
 enabling direct manipulation of online data. However, I have very little
 appetite for this (I personally don't use plotly online, because I've
