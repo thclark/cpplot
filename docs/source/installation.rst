@@ -29,7 +29,7 @@ all the tricky dependencies.
 .. code:: bash
 
     git clone https://github.com/thclark/cpplot
-    cd cpplot && cmake . -B build
+    cd cpplot && mkdir -p build && cmake . -B build
 
 This process will die first time around, and you'll get a message like:
 

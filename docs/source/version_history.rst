@@ -99,3 +99,23 @@ Bug Fixes & Minor Changes
 -------------------------
 #. Fix for building against glog on windows
 #. Corrected build instructions in documentation
+
+
+0.0.4
+=====
+
+Removed unused cpr dependency from build system
+
+New Features
+------------
+#. n/a
+
+Backward Incompatible API Changes
+---------------------------------
+#. n/a
+
+Bug Fixes & Minor Changes
+-------------------------
+#. Removed unused cpr dependency from build system
+#. Updated docs to reflect the removed dep and to close #17
+#. Added a branch naming rule to the git pre-commit
